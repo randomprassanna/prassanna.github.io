@@ -7,15 +7,6 @@ redirect_from:
   - /about.html
 ---
 
-
----
-layout: single
-title: "About Me"
-permalink: /
-author_profile: true
----
-
-<div style="max-width: 100%; width: 100%; padding: 0 2rem;">
   
 Hello! I'm Prassanna Langote — welcome to my personal website.
 
