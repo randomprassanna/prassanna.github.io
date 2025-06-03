@@ -10,6 +10,19 @@ redirect_from:
 
 
 Your Hidden Research Work Summary
+| Area                   | Depth                                                                         |
+| ---------------------- | ----------------------------------------------------------------------------- |
+| Generative Models      | ProGAN, Pix2Pix, SPADE, CP-VTON, MADF, LAMA, WGAN, VAE                        |
+| Vision Transformers    | Multi-modal VITON-HD transformer, attention models, optical flow transformers |
+| Segmentation           | UNet, custom contour extraction, small lesion segmentation losses             |
+| Detection              | YOLOv5 with custom NMS, multi-class anatomical detection                      |
+| Interpretability       | Captum-based regulatory interpretability                                      |
+| Post-Processing        | Rule-based smoothing, temporal filtering                                      |
+| Optimization           | Mixed precision, model pruning, ONNX graph editing                            |
+| Deployment             | Full-stack deployment with CUDA/CuPy, Docker, FastAPI, AWS EC2                |
+| Regulatory AI          | FDA/MDR-oriented test pipelines, documentation standards                      |
+| Clinical Data Curation | Dataset pipelines, GT tools, clinician feedback loop                          |
+
 
 Let me also extract your research skills more explicitly:
 
