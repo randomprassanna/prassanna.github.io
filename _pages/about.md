@@ -20,19 +20,18 @@ Projects highlighting my work in endoscopy AI (Atrophic Gastritis, Intestinal Me
 I hold an MBA in Business Economics and a B.Tech in Civil Engineering—so I approach AI with both analytical rigor and a business-first mindset. When I’m not coding or writing, you’ll find me diving into philosophy books, following space exploration, or playing cricket.
 Welcome to Prassanna Earth—where code meets context, and where I explore how technology can serve humanity’s greatest challenges. Feel free to jump straight to my latest posts or explore the essays if you’re curious about the big questions.
 
-Your Hidden Research Work Summary
-| Area                   | Depth                                                                         |
-| ---------------------- | ----------------------------------------------------------------------------- |
-| Generative Models      | ProGAN, Pix2Pix, SPADE, CP-VTON, MADF, LAMA, WGAN, VAE                        |
-| Vision Transformers    | Multi-modal VITON-HD transformer, attention models, optical flow transformers |
-| Segmentation           | UNet, custom contour extraction, small lesion segmentation losses             |
-| Detection              | YOLOv5 with custom NMS, multi-class anatomical detection                      |
-| Interpretability       | Captum-based regulatory interpretability                                      |
-| Post-Processing        | Rule-based smoothing, temporal filtering                                      |
-| Optimization           | Mixed precision, model pruning, ONNX graph editing                            |
-| Deployment             | Full-stack deployment with CUDA/CuPy, Docker, FastAPI, AWS EC2                |
-| Regulatory AI          | FDA/MDR-oriented test pipelines, documentation standards                      |
-| Clinical Data Curation | Dataset pipelines, GT tools, clinician feedback loop                          |
+| Area                   | Depth                                                                                     |
+|------------------------|-------------------------------------------------------------------------------------------|
+| Generative Models      | ProGAN, Pix2Pix, SPADE, CP-VTON, MADF, LAMA, WGAN, VAE                                   |
+| Vision Transformers    | Multi-modal VITON-HD transformer, attention models, optical flow transformers             |
+| Segmentation           | UNet, custom contour extraction, small lesion segmentation losses                         |
+| Detection              | YOLOv5 with custom NMS, multi-class anatomical detection                                  |
+| Interpretability       | Captum-based regulatory interpretability                                                  |
+| Post-Processing        | Rule-based smoothing, temporal filtering                                                  |
+| Optimization           | Mixed precision, model pruning, ONNX graph editing                                        |
+| Deployment             | Full-stack deployment with CUDA/CuPy, Docker, FastAPI, AWS EC2                           |
+| Regulatory AI          | FDA/MDR-oriented test pipelines, documentation standards                                  |
+| Clinical Data Curation | Dataset pipelines, GT tools, clinician feedback loop                                      |                     |
 
 
 Let me also extract your research skills more explicitly:
