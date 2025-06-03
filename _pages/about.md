@@ -8,6 +8,17 @@ redirect_from:
 ---
 
 
+Hello! I’m Prassanna Langote, and this is my corner of the internet.
+
+I’m a Senior Data Scientist specializing in real-time AI for medical imaging. Every day, I bridge the gap between cutting-edge research (think GANs, Vision Transformers, custom loss functions) and production-grade systems that run at 20 FPS with sub-2 ms CUDA rendering.
+My journey began as a research trainee building a 500 M-parameter multi-modal virtual try-on model. Today, I lead end-to-end clinical AI projects—designing data pipelines, writing custom CUDA kernels, architecting FDA-compliant test frameworks, and collaborating with clinicians to bring AI into the operating room.
+Beyond code and models, I’m obsessed with why we build technology. I write about human progress, ethics, and how emerging AI reshapes society’s future—because real innovation needs context as much as computation.
+On this site you’ll find:
+Technical deep-dives into GPU optimizations, Holoscan integrations, UNet/YOLOv5 pipelines, and more.
+Essays exploring philosophy, the evolving nature of intelligence, and the responsibilities we carry as creators.
+Projects highlighting my work in endoscopy AI (Atrophic Gastritis, Intestinal Metaplasia detection), virtual try-on research, and in-house tools for data curation and model promotion.
+I hold an MBA in Business Economics and a B.Tech in Civil Engineering—so I approach AI with both analytical rigor and a business-first mindset. When I’m not coding or writing, you’ll find me diving into philosophy books, following space exploration, or playing cricket.
+Welcome to Prassanna Earth—where code meets context, and where I explore how technology can serve humanity’s greatest challenges. Feel free to jump straight to my latest posts or explore the essays if you’re curious about the big questions.
 
 Your Hidden Research Work Summary
 | Area                   | Depth                                                                         |
