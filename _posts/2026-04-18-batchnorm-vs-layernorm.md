@@ -1,252 +1,312 @@
 ---
 layout: single
-title: "BatchNorm vs LayerNorm — A Geometric & Statistical View"
+title: "Batch Normalization vs Layer Normalization: A Statistical & Geometric View"
 date: 2026-04-18
 categories: [Deep Learning, Theory]
 ---
 
 <style>
-.norm-box {
+.eq {
   background: #111;
-  color: #eee;
-  padding: 15px;
-  border-radius: 10px;
+  color: #00ffcc;
+  padding: 12px;
+  border-radius: 8px;
   font-family: monospace;
-  overflow-x: auto;
+  margin: 10px 0;
 }
 
 .diagram {
   background: #1a1a1a;
+  color: #8fd;
   padding: 15px;
   border-radius: 10px;
   font-family: monospace;
   white-space: pre;
-  color: #8ef;
+  margin: 15px 0;
 }
 
-.section-block {
-  margin-bottom: 40px;
+p {
+  line-height: 1.7;
 }
 </style>
 
-<div class="section-block">
-<h2>Motivation</h2>
+<h2>1. Problem Setting</h2>
 
-<p>Given activations:</p>
+<p>
+Let activations of a neural network layer be:
+</p>
 
-<div class="norm-box">
+<div class="eq">
 x ∈ ℝ^(B × d)
 </div>
 
-<p>We want:</p>
+<p>
+where <b>B</b> is batch size and <b>d</b> is feature dimension.
+Training instability arises because the distribution of x drifts during optimization.
+Normalization enforces:
+</p>
 
-<div class="norm-box">
+<div class="eq">
 E[x] ≈ 0,   Var[x] ≈ 1
 </div>
 
-<p>The key difference is <b>which axis we normalize over</b>.</p>
-</div>
+<p>
+The key question is: <b>over which axis is this expectation taken?</b>
+</p>
 
 ---
 
-<div class="section-block">
-<h2>Batch Normalization</h2>
+<h2>2. Batch Normalization</h2>
 
-<div class="norm-box">
+<p>
+BatchNorm normalizes each feature across the batch:
+</p>
+
+<div class="eq">
 μ_j = (1/B) Σ_i x_ij  
-σ_j² = (1/B) Σ_i (x_ij − μ_j)²  
+σ_j² = (1/B) Σ_i (x_ij − μ_j)²
+</div>
 
+<div class="eq">
 x̂_ij = (x_ij − μ_j) / √(σ_j² + ε)
-y_ij = γ_j x̂_ij + β_j
 </div>
 
-<p><b>Interpretation:</b></p>
-<ul>
-<li>Statistics computed across batch</li>
-<li>Each feature follows:</li>
-</ul>
+<p>
+This implies:
+</p>
 
-<div class="norm-box">
-x_1j, ..., x_Bj ~ N(μ_j, σ_j²)
+<div class="eq">
+x_1j, x_2j, ..., x_Bj ~ 𝒩(μ_j, σ_j²)
 </div>
+
+<p>
+Thus, BatchNorm assumes a <b>batch-wise Gaussian distribution per feature</b>.
+</p>
 
 <div class="diagram">
-BatchNorm (feature-wise across batch)
+BatchNorm (normalize column-wise)
 
-x_1j   x_2j   x_3j   ...   x_Bj
-  |      |      |            |
-  -------- mean,var ----------
-             ↓
-        normalize
+        feature j
+x_1j    x_2j    x_3j   ...   x_Bj
+  |       |       |            |
+  ----------- μ,σ -------------
+              ↓
+          normalize
 </div>
 
-<p><b>Key idea:</b> align feature distributions across samples.</p>
+<p>
+Geometrically, BatchNorm aligns the distribution of each feature across samples:
+</p>
+
+<div class="eq">
+Var_batch(x_.j) → 1
 </div>
 
 ---
 
-<div class="section-block">
-<h2>Layer Normalization</h2>
+<h2>3. Layer Normalization</h2>
 
-<div class="norm-box">
+<p>
+LayerNorm instead normalizes across features within each sample:
+</p>
+
+<div class="eq">
 μ_i = (1/d) Σ_j x_ij  
-σ_i² = (1/d) Σ_j (x_ij − μ_i)²  
+σ_i² = (1/d) Σ_j (x_ij − μ_i)²
+</div>
 
+<div class="eq">
 x̂_ij = (x_ij − μ_i) / √(σ_i² + ε)
 </div>
 
-<p><b>Interpretation:</b></p>
+<p>
+This implies:
+</p>
 
-<ul>
-<li>Statistics computed per sample</li>
-<li>Each sample follows:</li>
-</ul>
-
-<div class="norm-box">
-x_i1, ..., x_id ~ N(μ_i, σ_i²)
+<div class="eq">
+x_i1, x_i2, ..., x_id ~ 𝒩(μ_i, σ_i²)
 </div>
 
+<p>
+Thus, LayerNorm assumes a <b>feature-wise Gaussian distribution per sample</b>.
+</p>
+
 <div class="diagram">
-LayerNorm (feature-wise inside sample)
+LayerNorm (normalize row-wise)
+
+sample i →
 
 x_i1   x_i2   x_i3   ...   x_id
   |      |      |            |
-  -------- mean,var ----------
-             ↓
-        normalize
+  -------- μ,σ --------------
+           ↓
+       normalize
 </div>
 
-<p><b>Key idea:</b> normalize internal feature geometry.</p>
+<p>
+Geometrically:
+</p>
+
+<div class="eq">
+||x_i||² ≈ d
 </div>
+
+<p>
+Each sample lies on a normalized hypersphere.
+</p>
 
 ---
 
-<div class="section-block">
-<h2>Why BatchNorm Works for Images</h2>
+<h2>4. Why BatchNorm Works for Images</h2>
 
-<div class="norm-box">
+<p>
+For CNN activations:
+</p>
+
+<div class="eq">
 x ∈ ℝ^(B × C × H × W)
+</div>
 
+<div class="eq">
 μ_c = E_{b,h,w}[x_bchw]
 </div>
 
-<p>Assumption:</p>
+<p>
+BatchNorm assumes:
+</p>
 
-<div class="norm-box">
-x_bchw ~ N(μ_c, σ_c²)
+<div class="eq">
+x_bchw ~ 𝒩(μ_c, σ_c²)
 </div>
+
+<p>
+This works because:
+</p>
 
 <ul>
-<li>Images share dataset-level statistics</li>
-<li>Batch ≈ population estimate</li>
-<li>Acts as stochastic regularizer</li>
+<li>Images in a batch share global statistics (lighting, textures)</li>
+<li>Batch acts as a population estimate</li>
+<li>Noise in μ,σ acts as regularization</li>
 </ul>
-</div>
 
 ---
 
-<div class="section-block">
-<h2>Why Transformers Use LayerNorm</h2>
+<h2>5. Why LayerNorm Dominates Transformers</h2>
 
-<div class="norm-box">
+<p>
+For sequence models:
+</p>
+
+<div class="eq">
 x ∈ ℝ^(B × T × d)
 </div>
 
+<p>
+Problems with BatchNorm:</p>
+
 <ul>
-<li>Tokens are unrelated across batch</li>
-<li>Batch statistics are noisy</li>
-<li>Variable sequence lengths</li>
+<li>Tokens across batch are unrelated</li>
+<li>Sequence lengths vary</li>
+<li>Batch statistics become noisy</li>
 </ul>
 
-<p>Thus:</p>
+<p>
+LayerNorm avoids this by enforcing:
+</p>
 
-<div class="norm-box">
+<div class="eq">
 ∀ token i: normalize independently
 </div>
-</div>
 
 ---
 
-<div class="section-block">
-<h2>Geometric View</h2>
-
-<p><b>BatchNorm:</b></p>
-<div class="norm-box">
-Normalize columns → align dataset distribution
-</div>
-
-<p><b>LayerNorm:</b></p>
-<div class="norm-box">
-Normalize rows → constrain each sample:
-
-||x_i||² ≈ d
-</div>
-</div>
-
----
-
-<div class="section-block">
-<h2>Benefits vs Caveats</h2>
+<h2>6. Statistical Contrast</h2>
 
 <table>
 <tr>
-<th>Property</th>
+<th>Aspect</th>
 <th>BatchNorm</th>
 <th>LayerNorm</th>
 </tr>
 
 <tr>
-<td>Axis</td>
+<td>Normalization axis</td>
 <td>Batch</td>
 <td>Feature</td>
 </tr>
 
 <tr>
-<td>Regularization</td>
-<td>Strong (stochastic)</td>
-<td>Weak</td>
+<td>Distribution assumption</td>
+<td>Batch Gaussian</td>
+<td>Feature Gaussian</td>
 </tr>
 
 <tr>
-<td>Batch size</td>
-<td>Required</td>
-<td>Not needed</td>
+<td>Dependency</td>
+<td>Across samples</td>
+<td>Within sample</td>
 </tr>
 
 <tr>
-<td>Best for</td>
-<td>CNNs</td>
-<td>Transformers</td>
+<td>Stochasticity</td>
+<td>Yes</td>
+<td>No</td>
 </tr>
 </table>
-</div>
 
 ---
 
-<div class="section-block">
-<h2>Unifying View</h2>
+<h2>7. Failure Modes</h2>
 
-<div class="norm-box">
+<p><b>BatchNorm:</b></p>
+
+<div class="eq">
+B → 1 ⇒ σ² → 0  (degeneracy)
+</div>
+
+<ul>
+<li>Small batch instability</li>
+<li>Train-test mismatch (running stats)</li>
+</ul>
+
+<p><b>LayerNorm:</b></p>
+
+<ul>
+<li>No cross-sample regularization</li>
+<li>Less effective in CNNs</li>
+<li>Assumes feature symmetry</li>
+</ul>
+
+---
+
+<h2>8. Unified View</h2>
+
+<p>
+Both methods are instances of:
+</p>
+
+<div class="eq">
 x̂ = (x − E_S[x]) / √(Var_S[x] + ε)
 </div>
 
-<p>Where:</p>
+<p>
+where:</p>
 
 <ul>
 <li>BatchNorm: S = batch axis</li>
 <li>LayerNorm: S = feature axis</li>
 </ul>
-</div>
 
 ---
 
-<div class="section-block">
-<h2>Final Insight</h2>
+<h2>9. Final Insight</h2>
 
-<div class="norm-box">
-BatchNorm → "How does this feature behave across data?"
+<div class="eq">
+BatchNorm → aligns distributions across data
 
-LayerNorm → "How are features structured within this sample?"
+LayerNorm → stabilizes representation geometry within a sample
 </div>
 
-</div>
+<p>
+They impose Gaussian structure — but along <b>orthogonal statistical axes</b>.
+</p>
