@@ -1,178 +1,25 @@
----
-layout: single
-title: "Batch Normalization vs Layer Normalization: A Statistical & Geometric View"
-date: 2026-04-18
-categories: [Deep Learning, Theory]
----
+<hr>
 
-<style>
-.eq {
-  background: #111;
-  color: #00ffcc;
-  padding: 12px;
-  border-radius: 8px;
-  font-family: monospace;
-  margin: 10px 0;
-}
-
-.diagram {
-  background: #1a1a1a;
-  color: #8fd;
-  padding: 15px;
-  border-radius: 10px;
-  font-family: monospace;
-  white-space: pre;
-  margin: 15px 0;
-}
-
-p {
-  line-height: 1.7;
-}
-</style>
-
-<h2>1. Problem Setting</h2>
+<h2>10. Why Batch Statistics Work for Images</h2>
 
 <p>
-Let activations of a neural network layer be:
-</p>
-
-<div class="eq">
-x ∈ ℝ^(B × d)
-</div>
-
-<p>
-where <b>B</b> is batch size and <b>d</b> is feature dimension.
-Training instability arises because the distribution of x drifts during optimization.
-Normalization enforces:
-</p>
-
-<div class="eq">
-E[x] ≈ 0,   Var[x] ≈ 1
-</div>
-
-<p>
-The key question is: <b>over which axis is this expectation taken?</b>
-</p>
-
----
-
-<h2>2. Batch Normalization</h2>
-
-<p>
-BatchNorm normalizes each feature across the batch:
-</p>
-
-<div class="eq">
-μ_j = (1/B) Σ_i x_ij  
-σ_j² = (1/B) Σ_i (x_ij − μ_j)²
-</div>
-
-<div class="eq">
-x̂_ij = (x_ij − μ_j) / √(σ_j² + ε)
-</div>
-
-<p>
-This implies:
-</p>
-
-<div class="eq">
-x_1j, x_2j, ..., x_Bj ~ 𝒩(μ_j, σ_j²)
-</div>
-
-<p>
-Thus, BatchNorm assumes a <b>batch-wise Gaussian distribution per feature</b>.
-</p>
-
-<div class="diagram">
-BatchNorm (normalize column-wise)
-
-        feature j
-x_1j    x_2j    x_3j   ...   x_Bj
-  |       |       |            |
-  ----------- μ,σ -------------
-              ↓
-          normalize
-</div>
-
-<p>
-Geometrically, BatchNorm aligns the distribution of each feature across samples:
-</p>
-
-<div class="eq">
-Var_batch(x_.j) → 1
-</div>
-
----
-
-<h2>3. Layer Normalization</h2>
-
-<p>
-LayerNorm instead normalizes across features within each sample:
-</p>
-
-<div class="eq">
-μ_i = (1/d) Σ_j x_ij  
-σ_i² = (1/d) Σ_j (x_ij − μ_i)²
-</div>
-
-<div class="eq">
-x̂_ij = (x_ij − μ_i) / √(σ_i² + ε)
-</div>
-
-<p>
-This implies:
-</p>
-
-<div class="eq">
-x_i1, x_i2, ..., x_id ~ 𝒩(μ_i, σ_i²)
-</div>
-
-<p>
-Thus, LayerNorm assumes a <b>feature-wise Gaussian distribution per sample</b>.
-</p>
-
-<div class="diagram">
-LayerNorm (normalize row-wise)
-
-sample i →
-
-x_i1   x_i2   x_i3   ...   x_id
-  |      |      |            |
-  -------- μ,σ --------------
-           ↓
-       normalize
-</div>
-
-<p>
-Geometrically:
-</p>
-
-<div class="eq">
-||x_i||² ≈ d
-</div>
-
-<p>
-Each sample lies on a normalized hypersphere.
-</p>
-
----
-
-<h2>4. Why BatchNorm Works for Images</h2>
-
-<p>
-For CNN activations:
+Consider convolutional activations:
 </p>
 
 <div class="eq">
 x ∈ ℝ^(B × C × H × W)
 </div>
 
+<p>
+BatchNorm computes:
+</p>
+
 <div class="eq">
-μ_c = E_{b,h,w}[x_bchw]
+μ_c = E_{b,h,w}[x_bchw],   σ_c² = Var_{b,h,w}[x_bchw]
 </div>
 
 <p>
-BatchNorm assumes:
+Implicit assumption:
 </p>
 
 <div class="eq">
@@ -180,18 +27,30 @@ x_bchw ~ 𝒩(μ_c, σ_c²)
 </div>
 
 <p>
-This works because:
+This assumption is not arbitrary. It relies on a <b>dataset-level stationarity</b>:
 </p>
 
 <ul>
-<li>Images in a batch share global statistics (lighting, textures)</li>
-<li>Batch acts as a population estimate</li>
-<li>Noise in μ,σ acts as regularization</li>
+<li>Images are sampled from a shared distribution P(image)</li>
+<li>Local patches across images share similar statistics (edges, textures)</li>
+<li>Thus batch ≈ i.i.d. samples from same distribution</li>
 </ul>
+
+<p>
+Hence:
+</p>
+
+<div class="eq">
+E_batch[x] ≈ E_data[x]
+</div>
+
+<p>
+BatchNorm is therefore a <b>Monte Carlo estimator of population statistics</b>.
+</p>
 
 ---
 
-<h2>5. Why LayerNorm Dominates Transformers</h2>
+<h2>11. Why This Fails for Transformers</h2>
 
 <p>
 For sequence models:
@@ -202,111 +61,306 @@ x ∈ ℝ^(B × T × d)
 </div>
 
 <p>
-Problems with BatchNorm:</p>
-
-<ul>
-<li>Tokens across batch are unrelated</li>
-<li>Sequence lengths vary</li>
-<li>Batch statistics become noisy</li>
-</ul>
-
-<p>
-LayerNorm avoids this by enforcing:
+Each token embedding satisfies:
 </p>
 
 <div class="eq">
-∀ token i: normalize independently
+x_i ~ P(token_i)
 </div>
-
----
-
-<h2>6. Statistical Contrast</h2>
-
-<table>
-<tr>
-<th>Aspect</th>
-<th>BatchNorm</th>
-<th>LayerNorm</th>
-</tr>
-
-<tr>
-<td>Normalization axis</td>
-<td>Batch</td>
-<td>Feature</td>
-</tr>
-
-<tr>
-<td>Distribution assumption</td>
-<td>Batch Gaussian</td>
-<td>Feature Gaussian</td>
-</tr>
-
-<tr>
-<td>Dependency</td>
-<td>Across samples</td>
-<td>Within sample</td>
-</tr>
-
-<tr>
-<td>Stochasticity</td>
-<td>Yes</td>
-<td>No</td>
-</tr>
-</table>
-
----
-
-<h2>7. Failure Modes</h2>
-
-<p><b>BatchNorm:</b></p>
-
-<div class="eq">
-B → 1 ⇒ σ² → 0  (degeneracy)
-</div>
-
-<ul>
-<li>Small batch instability</li>
-<li>Train-test mismatch (running stats)</li>
-</ul>
-
-<p><b>LayerNorm:</b></p>
-
-<ul>
-<li>No cross-sample regularization</li>
-<li>Less effective in CNNs</li>
-<li>Assumes feature symmetry</li>
-</ul>
-
----
-
-<h2>8. Unified View</h2>
 
 <p>
-Both methods are instances of:
+But tokens across batch are:
 </p>
 
 <div class="eq">
-x̂ = (x − E_S[x]) / √(Var_S[x] + ε)
+x_i ⟂ x_j  (independent, heterogeneous semantics)
+</div>
+
+<ul>
+<li>Different sentences → different distributions</li>
+<li>No shared spatial structure</li>
+<li>Non-stationary across batch</li>
+</ul>
+
+<p>
+Thus:
+</p>
+
+<div class="eq">
+E_batch[x] ≠ meaningful estimate
 </div>
 
 <p>
-where:</p>
+BatchNorm introduces noise in representation alignment, destabilizing attention layers.
+</p>
+
+---
+
+<h2>12. Why LayerNorm Works in Transformers</h2>
+
+<p>
+LayerNorm assumes:
+</p>
+
+<div class="eq">
+x_i1, ..., x_id ~ 𝒩(μ_i, σ_i²)
+</div>
+
+<p>
+Interpretation:
+</p>
 
 <ul>
-<li>BatchNorm: S = batch axis</li>
-<li>LayerNorm: S = feature axis</li>
+<li>Features represent a distributed embedding</li>
+<li>Only <b>relative scale within a token</b> matters</li>
+<li>Absolute scale across tokens is irrelevant</li>
+</ul>
+
+<p>
+Thus normalization enforces:
+</p>
+
+<div class="eq">
+||x_i|| ≈ constant
+</div>
+
+<p>
+This stabilizes:
+</p>
+
+<ul>
+<li>Dot-product attention (scale-sensitive)</li>
+<li>Residual connections</li>
+<li>Gradient propagation depth-wise</li>
 </ul>
 
 ---
 
-<h2>9. Final Insight</h2>
+<h2>13. What Happens If We Swap Them?</h2>
+
+<p><b>BatchNorm in Transformers:</b></p>
+
+<ul>
+<li>Attention logits fluctuate due to batch noise</li>
+<li>Sequence-dependent instability</li>
+<li>Poor convergence for small batch sizes</li>
+</ul>
 
 <div class="eq">
-BatchNorm → aligns distributions across data
+softmax(QKᵀ / √d) becomes unstable
+</div>
 
-LayerNorm → stabilizes representation geometry within a sample
+<p><b>LayerNorm in CNNs:</b></p>
+
+<ul>
+<li>Ignores cross-image statistics</li>
+<li>Removes useful contrast differences between samples</li>
+<li>Reduces implicit regularization</li>
+</ul>
+
+<p>
+Empirically:
+</p>
+
+<div class="eq">
+CNN + LN ⇒ slower convergence, worse generalization
+</div>
+
+---
+
+<h2>14. Training Stability & Gradient Dynamics</h2>
+
+<p>
+Normalization affects gradients through scale invariance:
+</p>
+
+<div class="eq">
+∂L/∂x ∝ 1 / σ
 </div>
 
 <p>
-They impose Gaussian structure — but along <b>orthogonal statistical axes</b>.
+For BatchNorm:
 </p>
+
+<ul>
+<li>σ estimated over batch → stochastic gradients</li>
+<li>Acts as noise injection</li>
+<li>Improves generalization</li>
+</ul>
+
+<p>
+For LayerNorm:
+</p>
+
+<ul>
+<li>σ deterministic per sample</li>
+<li>Stable but less regularizing</li>
+</ul>
+
+<p>
+Thus:
+</p>
+
+<div class="eq">
+BN ≈ stochastic preconditioning  
+LN ≈ deterministic conditioning
+</div>
+
+---
+
+<h2>15. Dynamic Range & Signal Propagation</h2>
+
+<p>
+Without normalization:
+</p>
+
+<div class="eq">
+x^(l+1) = W x^(l)
+</div>
+
+<p>
+Variance grows exponentially:
+</p>
+
+<div class="eq">
+Var[x^(l)] → exploding / vanishing
+</div>
+
+<p>
+Normalization enforces:
+</p>
+
+<div class="eq">
+Var[x^(l)] ≈ 1
+</div>
+
+<p>
+Thus preserving <b>dynamic range</b>:
+</p>
+
+<ul>
+<li>Prevents saturation (ReLU dead zones, sigmoid collapse)</li>
+<li>Maintains gradient flow</li>
+<li>Keeps representations in high-sensitivity region</li>
+</ul>
+
+<p>
+Interpretation:
+</p>
+
+<div class="eq">
+Normalization ≈ projection onto a stable manifold
+</div>
+
+---
+
+<h2>16. The Problem with Global Statistics</h2>
+
+<p>
+BatchNorm uses global statistics across samples:
+</p>
+
+<div class="eq">
+μ_global = E_batch[x]
+</div>
+
+<p>
+But this can wash out:
+</p>
+
+<ul>
+<li>Rare features</li>
+<li>Outliers (medically important signals!)</li>
+<li>Local contrast variations</li>
+</ul>
+
+<p>
+Thus:
+</p>
+
+<div class="eq">
+Signal-to-noise ratio ↓ for rare patterns
+</div>
+
+---
+
+<h2>17. Biological Parallel: Human Vision</h2>
+
+<p>
+The human visual system does <b>local normalization</b>, not global.
+</p>
+
+<p>
+In retinal ganglion cells:
+</p>
+
+<div class="eq">
+response ∝ (center − surround)
+</div>
+
+<p>
+This is known as:
+</p>
+
+<div class="eq">
+Divisive normalization
+</div>
+
+<ul>
+<li>Normalization is local in space</li>
+<li>Enhances edges and contrast</li>
+<li>Preserves important anomalies</li>
+</ul>
+
+<div class="diagram">
+Biological analogy:
+
+   center pixel
+       ↓
+   [ strong response ]
+
+surrounding region
+   [ suppressive field ]
+
+output = center / (local variance)
+</div>
+
+<p>
+Comparison:
+</p>
+
+<ul>
+<li>BatchNorm → global population statistics</li>
+<li>LayerNorm → per-sample normalization</li>
+<li>Biology → <b>local spatial normalization</b> (closer to InstanceNorm / GroupNorm)</li>
+</ul>
+
+---
+
+<h2>18. Final Synthesis</h2>
+
+<div class="eq">
+BatchNorm → assumes dataset-level stationarity  
+LayerNorm → assumes feature-level exchangeability  
+Biological systems → assume local spatial coherence
+</div>
+
+<p>
+Thus, normalization choice reflects a deeper assumption about:
+</p>
+
+<ul>
+<li>What constitutes a “population”</li>
+<li>Where invariance should be enforced</li>
+<li>What structure should be preserved</li>
+</ul>
+
+<p>
+In essence:
+</p>
+
+<div class="eq">
+BN = statistical alignment across data  
+LN = geometric stabilization within representation  
+Biology = contrast normalization in local neighborhoods
+</div>
