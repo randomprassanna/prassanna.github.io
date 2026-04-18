@@ -1,80 +1,88 @@
 ---
 layout: single
 title: About Me
-permalink: /about/
+permalink: /
 ---
 
 <div class="hero-section">
-  <h1>My Name</h1>
-  <p><strong>AI Researcher in Medical Imaging (Endoscopy + Radiology)</strong></p>
-  <p>A brief introduction to my work and expertise.</p>
+  <h1>Prassanna</h1>
+  <p><strong>AI Researcher | Biomedical Vision & Multimodal Learning</strong></p>
+  <p>A researcher focused on medical imaging (endoscopy, radiology, pathology), multimodal learning, and emerging interest in protein-related AI.</p>
+  <a href="/portfolio/" class="btn btn-primary">Projects</a>
+  <a href="/blog/" class="btn btn-secondary">Blog</a>
+  <a href="mailto:your.email@example.com" class="btn btn-info">Contact</a>
 </div>
 
-<div class="section what-i-do">
-  <h2>What I Do</h2>
+<div class="section research-interests">
+  <h2>Research Interests</h2>
   <ul>
-    <li>Real-time AI for medical imaging</li>
-    <li>Development of clinical systems</li>
-    <li>Deployment strategies</li>
-    <li>Performance optimization in AI applications</li>
+    <li>Medical Image Understanding (Endoscopy, Radiology, Pathology)</li>
+    <li>Multimodal Learning (Vision + Text + Biological Data)</li>
+    <li>Representation Learning in Biomedical Data</li>
+    <li>Protein / Structural Biology (emerging)</li>
   </ul>
 </div>
 
-<div class="section research-domains">
-  <h2>Research Domains</h2>
+<div class="section domain-focus">
+  <h2>Domain Focus</h2>
   <div class="domain endoscopy">
-    <h3>Endoscopy</h3>
-    <p>Description of my work in endoscopy.</p>
+    <div style="width: 80%; background-color: #ddd; height: 20px;"></div>
   </div>
   <div class="domain radiology">
-    <h3>Radiology</h3>
-    <p>Description of my work in radiology.</p>
+    <div style="width: 70%; background-color: #ddd; height: 20px;"></div>
+  </div>
+  <div class="domain pathology">
+    <div style="width: 60%; background-color: #ddd; height: 20px;"></div>
+  </div>
+  <div class="domain protein-bioml">
+    <div style="width: 40%; background-color: #ddd; height: 20px;"></div>
+  </div>
+  <div class="domain multimodal-ai">
+    <div style="width: 90%; background-color: #ddd; height: 20px;"></div>
   </div>
 </div>
 
-<div class="section technical-strength">
-  <h2>Technical Strengths</h2>
-  <div class="group ai-ml">
-    <h3>AI / ML</h3>
-    <ul>
-      <li>Deep learning models</li>
-      <li>Computer vision techniques</li>
-      <li>Natural language processing</li>
-    </ul>
+<div class="section current-exploration">
+  <h2>Current Exploration</h2>
+  <ul>
+    <li>Vision-language models for medical imaging</li>
+    <li>Learning from limited clinical datasets</li>
+    <li>Cross-modal learning between imaging and biological data</li>
+  </ul>
+</div>
+
+<div class="section projects">
+  <h2>Projects</h2>
+  <div class="project">
+    <h3>Title: Project 1</h3>
+    <p>Description: A brief description of the project.</p>
+    <a href="#" class="btn btn-link">View Project</a>
   </div>
-  <div class="group systems-performance">
-    <h3>Systems / Performance</h3>
-    <ul>
-      <li>High-performance computing</li>
-      <li>Scalable architectures</li>
-      <li>Real-time data processing</li>
-    </ul>
+  <div class="project">
+    <h3>Title: Project 2</h3>
+    <p>Description: Another brief description of the project.</p>
+    <a href="#" class="btn btn-link">View Project</a>
   </div>
-  <div class="group tools-stack">
-    <h3>Tools / Stack</h3>
-    <ul>
-      <li>Python</li>
-      <li>TensorFlow</li>
-      <li>PyTorch</li>
-      <li>Docker</li>
-      <li>Kubernetes</li>
-    </ul>
+  <div class="project">
+    <h3>Title: Project 3</h3>
+    <p>Description: A third brief description of the project.</p>
+    <a href="#" class="btn btn-link">View Project</a>
   </div>
 </div>
 
-<div class="section selected-work">
-  <h2>Selected Work</h2>
-  <!-- Add content here -->
-</div>
-
-<div class="section writing-blog">
-  <h2>Writing / Blog</h2>
-  <!-- Add content here -->
+<div class="section blog-writing">
+  <h2>Blog / Writing</h2>
+  <ul>
+    <li><a href="/blog/post1/">Post Title 1</a></li>
+    <li><a href="/blog/post2/">Post Title 2</a></li>
+    <li><a href="/blog/post3/">Post Title 3</a></li>
+  </ul>
+  <a href="/blog/" class="btn btn-link">View All Posts</a>
 </div>
 
 <div class="section journey">
   <h2>Journey</h2>
-  <p>A brief summary of my career and achievements.</p>
+  <p>Transitioned into AI research with a focus on biomedical vision and multimodal learning. Current work involves developing advanced models for medical imaging and exploring new applications in protein-related AI.</p>
 </div>
 
 <div class="section contact">
@@ -82,5 +90,6 @@ permalink: /about/
   <ul>
     <li><a href="https://github.com/yourusername">GitHub</a></li>
     <li><a href="mailto:your.email@example.com">Email</a></li>
+    <li><a href="https://linkedin.com/in/yourprofile">LinkedIn</a></li>
   </ul>
 </div>
