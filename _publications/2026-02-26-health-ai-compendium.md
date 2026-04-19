@@ -1,6 +1,7 @@
 ---
 title: "Health Use Cases AI Compendium"
 collection: publications
+category: manuscripts
 permalink: /publication/2026-02-26-health-ai-compendium
 excerpt: "A chapter on health use cases in AI, covering biomedical applications and multimodal learning approaches."
 date: 2026-02-26
