@@ -15,6 +15,6 @@ This chapter explores health use cases in artificial intelligence, with focus on
 
 <p>
 <a href="/files/Health_Use_cases_AI_Compendium_ad0551b6ef.pdf" target="_blank">
-📄 Read Full Chapter (PDF)
+Read Full Chapter (PDF)
 </a>
 </p>
