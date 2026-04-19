@@ -25,6 +25,8 @@ main:
         
   - title: "Blog Posts"
     url: /year-archive/
+  - title: "Publications"      # ← Add this
+    url: /publications/  
     
   
     
