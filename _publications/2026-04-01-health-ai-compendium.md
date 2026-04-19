@@ -5,7 +5,7 @@ permalink: /publication/2026-02-26-health-ai-compendium
 excerpt: "A chapter on health use cases in AI, covering biomedical applications and multimodal learning approaches."
 date: 2026-02-26
 venue: "India AI Impact Summit 2026 Compendium"
-paperurl: "https://prassannaearth.com/files/Health_Use_cases_AI_Compendium_ad0551b6ef.pdf"
+paperurl: "/files/Health_Use_cases_AI_Compendium_ad0551b6ef.pdf"
 citation: 'Langote, Prassanna. (2026). "Health Use Cases AI Compendium." <i>AI Compendium</i>.'
 ---
 
@@ -14,7 +14,7 @@ This chapter explores health use cases in artificial intelligence, with focus on
 </p>
 
 <p>
-<a href="https://prassannaearth.com/files/Health_Use_cases_AI_Compendium_ad0551b6ef.pdf" target="_blank">
+<a href="/files/Health_Use_cases_AI_Compendium_ad0551b6ef.pdf" target="_blank">
 📄 Read Full Chapter (PDF)
 </a>
 </p>
