@@ -23,22 +23,117 @@ permalink: /
   </ul>
 </div>
 
-<div class="section domain-focus">
-  <h2>Domain Focus</h2>
-  <div class="domain endoscopy">
-    <div style="width: 80%; background-color: #ddd; height: 20px;"></div>
+<div class="section recent-publications">
+  <h2>Recent Publications</h2>
+  <ul>
+    {% assign sorted_pubs = site.publications | sort: 'date' | reverse %}
+    {% for publication in sorted_pubs limit:5 %}
+      <li><a href="{{ publication.url }}">{{ publication.title }}</a></li>
+    {% endfor %}
+    {% if site.publications.size == 0 %}
+      <li><em>No publications found.</em></li>
+    {% endif %}
+  </ul>
+  <a href="/publications/" class="btn btn-link">View All Publications</a>
+</div>
+
+<div class="section recent-posts">
+  <h2>Recent Blog Posts</h2>
+  <ul>
+    {% for post in site.posts limit:5 %}
+      <li><a href="{{ post.url }}">{{ post.title }}</a> <span class="post-date">({{ post.date | date: "%B %d, %Y" }})</span></li>
+    {% endfor %}
+    {% if site.posts.size == 0 %}
+      <li><em>No blog posts found.</em></li>
+    {% endif %}
+  </ul>
+  <a href="/blog/" class="btn btn-link">View All Posts</a>
+</div>
+
+<style>
+  .experience-chart {
+    margin-top: 20px;
+  }
+  .experience-chart .chart-row {
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+  }
+  .experience-chart .chart-label {
+    width: 180px;
+    font-weight: 600;
+    color: #2c3e50;
+    flex-shrink: 0;
+  }
+  .experience-chart .chart-bar-wrap {
+    flex-grow: 1;
+    background: #ecf0f1;
+    border-radius: 8px;
+    height: 32px;
+    overflow: hidden;
+    position: relative;
+  }
+  .experience-chart .chart-bar {
+    height: 100%;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 12px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 0.95em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .bar-endoscopy { background: linear-gradient(90deg, #3498db, #2980b9); width: 100%; }
+  .bar-multimodal { background: linear-gradient(90deg, #9b59b6, #8e44ad); width: 66.66%; }
+  .bar-radiology { background: linear-gradient(90deg, #2ecc71, #27ae60); width: 33.33%; }
+  .bar-pathology { background: linear-gradient(90deg, #e67e22, #d35400); width: 33.33%; }
+  .bar-protein { background: linear-gradient(90deg, #1abc9c, #16a085); width: 16.66%; }
+  .post-date {
+    color: #7f8c8d;
+    font-size: 0.9em;
+    margin-left: 8px;
+  }
+</style>
+
+<div class="section experience-chart">
+  <h2>Clinical AI Experience</h2>
+  <p>Years of hands-on research across medical imaging domains:</p>
+  
+  <div class="chart-row">
+    <div class="chart-label">Endoscopy</div>
+    <div class="chart-bar-wrap">
+      <div class="chart-bar bar-endoscopy">3 yrs</div>
+    </div>
   </div>
-  <div class="domain radiology">
-    <div style="width: 70%; background-color: #ddd; height: 20px;"></div>
+  
+  <div class="chart-row">
+    <div class="chart-label">Multimodal AI</div>
+    <div class="chart-bar-wrap">
+      <div class="chart-bar bar-multimodal">2 yrs</div>
+    </div>
   </div>
-  <div class="domain pathology">
-    <div style="width: 60%; background-color: #ddd; height: 20px;"></div>
+  
+  <div class="chart-row">
+    <div class="chart-label">Radiology</div>
+    <div class="chart-bar-wrap">
+      <div class="chart-bar bar-radiology">1 yr</div>
+    </div>
   </div>
-  <div class="domain protein-bioml">
-    <div style="width: 40%; background-color: #ddd; height: 20px;"></div>
+  
+  <div class="chart-row">
+    <div class="chart-label">Pathology</div>
+    <div class="chart-bar-wrap">
+      <div class="chart-bar bar-pathology">1 yr</div>
+    </div>
   </div>
-  <div class="domain multimodal-ai">
-    <div style="width: 90%; background-color: #ddd; height: 20px;"></div>
+  
+  <div class="chart-row">
+    <div class="chart-label">Protein / BioML</div>
+    <div class="chart-bar-wrap">
+      <div class="chart-bar bar-protein">&lt;1 yr</div>
+    </div>
   </div>
 </div>
 
