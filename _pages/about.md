@@ -111,6 +111,50 @@ permalink: /
     color: #2980b9;
     text-decoration: underline;
   }
+
+  @media (prefers-color-scheme: dark) {
+    .section h2 {
+      color: #ecf0f1;
+      border-bottom-color: #34495e;
+    }
+    .experience-chart p {
+      color: #bdc3c7;
+    }
+    .experience-chart .chart-label {
+      color: #ecf0f1;
+    }
+    .experience-chart .chart-bar-wrap {
+      background: #2c3e50;
+    }
+    .research-interests li {
+      color: #bdc3c7;
+    }
+    .research-interests li strong {
+      color: #ecf0f1;
+    }
+    .recent-publications li,
+    .recent-posts li,
+    .current-directions li {
+      color: #bdc3c7;
+    }
+    .recent-publications a,
+    .recent-posts a {
+      color: #5dade2;
+    }
+    .recent-publications a:hover,
+    .recent-posts a:hover {
+      color: #85c1e9;
+    }
+    .post-date {
+      color: #95a5a6;
+    }
+    .view-all {
+      color: #bdc3c7;
+    }
+    .view-all:hover {
+      color: #5dade2;
+    }
+  }
 </style>
 
 <div class="section experience-chart">
